@@ -1,0 +1,14 @@
+{
+  "name": "mc-logins-bot",
+  "version": "1.0.0",
+  "description": "tracks minecraft server logins on vanilla servers running in itgz's docker container",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Spatchy",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
