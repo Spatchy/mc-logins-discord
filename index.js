@@ -25,15 +25,18 @@ client.on('ready', () => {
 		env: process.env
 	});
 
+	const channelID = '767011450081509387';
+	const outputChannel = client.channels.cache.get(channelID);
+
 	mc.on('data', data => {
 		if(data.includes('joined the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList.push(playername);
-			console.log(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
+			outputChannel.send(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
 		} else if(data.includes('left the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
-			console.log(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+			outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
 		}
 		
 	});
@@ -41,10 +44,5 @@ client.on('ready', () => {
 	mc.write('sudo docker attach mc\r');
 });
 
-client.on('message', msg => {
-	if (msg.content === 'ping') {
-		msg.reply('Pong!');
-	}
-});
 
 client.login(credentials['discord']['token']);
