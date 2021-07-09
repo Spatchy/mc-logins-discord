@@ -19,11 +19,8 @@ client.on('ready', () => {
 		env: process.env
 	});
 
-	mc.stdout.on('data', data => {
+	mc.on('data', data => {
 		console.log(data);
-	});
-	mc.stderr.on('data', data => {
-		console.log(data.toString('utf-8'));
 	});
 
 	mc.write('docker attach mc');
