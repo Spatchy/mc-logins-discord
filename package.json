@@ -9,6 +9,7 @@
   "author": "Spatchy",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.3"
+    "discord.js": "^12.5.3",
+    "node-pty": "^0.10.1"
   }
 }
