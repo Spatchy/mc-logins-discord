@@ -25,7 +25,7 @@ client.on('ready', () => {
 		env: process.env
 	});
 
-	const channelID = '767011450081509387';
+	const channelID = '863026838056992778';
 	const outputChannel = client.channels.cache.get(channelID);
 
 	mc.on('data', data => {
