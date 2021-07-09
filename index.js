@@ -37,11 +37,15 @@ client.on('ready', () => {
 			const playername = extractPlayerName(data);
 			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
 			outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+		} else if(data.includes('players online')){
+			activePlayerList = data.split('players online: ')[1].split(', ');
+			console.log(`bot started, ${activePlayerList.length} players online: ${activePlayerList}`);
 		}
 		
 	});
 
 	mc.write('sudo docker attach mc\r');
+	mc.write('/list\r')
 });
 
 
