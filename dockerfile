@@ -1,4 +1,4 @@
-FROM node:16.4.2
+FROM node:10.19.0
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
