@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const pty = require('node-pty');
+const os = require('os');
 const client = new Discord.Client();
 
 const credentials = JSON.parse(fs.readFileSync('./credentials.json'))
