@@ -8,6 +8,12 @@ const credentials = JSON.parse(fs.readFileSync('./credentials.json'))
 
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
+function extractPlayerName(data) {
+	return data.split('[Server thread/INFO]: ')[1].split(' ')[0];
+}
+
+var activePlayerList = [];
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 
@@ -20,11 +26,19 @@ client.on('ready', () => {
 	});
 
 	mc.on('data', data => {
-		console.log(data);
+		if(data.includes('joined the game')){
+			const playername = extractPlayerName(data);
+			activePlayerList.push(playername);
+			console.log(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
+		} else if(data.includes('left the game')){
+			const playername = extractPlayerName(data);
+			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
+			console.log(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+		}
+		
 	});
 
 	mc.write('sudo docker attach mc\r');
-	mc.write('/help\r');
 });
 
 client.on('message', msg => {
