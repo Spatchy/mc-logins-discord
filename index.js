@@ -23,8 +23,8 @@ client.on('ready', () => {
 		console.log(data);
 	});
 
-	mc.write('sudo docker attach mc');
-	mc.write('/help');
+	mc.write('sudo docker attach mc\r');
+	mc.write('/help\r');
 });
 
 client.on('message', msg => {
