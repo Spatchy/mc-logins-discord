@@ -9,7 +9,7 @@ const credentials = JSON.parse(fs.readFileSync('./credentials.json'))
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
 function extractPlayerName(data) {
-	return data.split('[Server thread/INFO]: ')[1].split(' ')[0];
+	return data.split('[Server thread/INFO]: ')[1].split(' ')[0].split('[')[0];
 }
 
 var activePlayerList = [];
