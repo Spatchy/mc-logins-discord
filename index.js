@@ -13,6 +13,7 @@ function extractPlayerName(data) {
 }
 
 var activePlayerList = [];
+var playerCount = 0;
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -32,14 +33,17 @@ client.on('ready', () => {
 		if(data.includes('joined the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList.push(playername);
-			outputChannel.send(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
+			mc.send('/list\r');
+			outputChannel.send(`${playername} just logged in! There are ${playerCount} players online right now`);
 		} else if(data.includes('left the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
-			outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+			mc.send('/list\r');
+			outputChannel.send(`${playername} just checked out. There are ${playercount} players online right now`);
 		} else if(data.includes('players online')){
+			playerCount = data.split(']: ')[1].split(' ')[2];
 			activePlayerList = data.split('players online: ')[1].split(', ');
-			console.log(`bot started, ${activePlayerList.length} players online: ${activePlayerList}`);
+			console.log(`bot started, ${playerCount} players online: ${activePlayerList}`);
 		}
 		
 	});
