@@ -41,6 +41,8 @@ client.on('ready', () => {
 				playername = extractPlayerName(tempActivePlayerList, activePlayerList);
 				outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
 			}
+			activePlayerList = tempActivePlayerList;
+			tempActivePlayerList = [];
 			
 		}
 		
