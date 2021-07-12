@@ -33,12 +33,12 @@ client.on('ready', () => {
 		if(data.includes('joined the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList.push(playername);
-			mc.send('/list\r');
+			mc.write('/list\r');
 			outputChannel.send(`${playername} just logged in! There are ${playerCount} players online right now`);
 		} else if(data.includes('left the game')){
 			const playername = extractPlayerName(data);
 			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
-			mc.send('/list\r');
+			mc.write('/list\r');
 			outputChannel.send(`${playername} just checked out. There are ${playercount} players online right now`);
 		} else if(data.includes('players online')){
 			playerCount = data.split(']: ')[1].split(' ')[2];
