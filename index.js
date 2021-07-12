@@ -8,11 +8,12 @@ const credentials = JSON.parse(fs.readFileSync('./credentials.json'))
 
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
-function extractPlayerName(data) {
-	return data.split('[Server thread/INFO]: ')[1].split(' ')[0].split('[')[0];
+function extractPlayerName(shorter, longer){
+	return longer.filter(x => !shorter.includes(x));
 }
 
 var activePlayerList = [];
+var tempActivePlayerList = [];
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -29,17 +30,18 @@ client.on('ready', () => {
 	const outputChannel = client.channels.cache.get(channelID);
 
 	mc.on('data', data => {
-		if(data.includes('joined the game')){
-			const playername = extractPlayerName(data);
-			activePlayerList.push(playername);
-			outputChannel.send(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
-		} else if(data.includes('left the game')){
-			const playername = extractPlayerName(data);
-			activePlayerList = activePlayerList.filter(e => e !== playername); //remove player from array
-			outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+		if(data.includes('joined the game') || data.includes('left the game')){
+			mc.write(list)
 		} else if(data.includes('players online')){
-			activePlayerList = data.split('players online: ')[1].split(', ');
-			console.log(`bot started, ${activePlayerList.length} players online: ${activePlayerList}`);
+			tempActivePlayerList = data.split('players online: ')[1].split(', ');
+			if(tempActivePlayerList > activePlayerList){ // someone joined the game
+				playername = extractPlayerName(activePlayerList, tempActivePlayerList);
+				outputChannel.send(`${playername} just logged in! There are ${activePlayerList.length} players online right now`);
+			} else if (tempActivePlayerList < activePlayerList){ // someone left the game
+				playername = extractPlayerName(tempActivePlayerList, activePlayerList);
+				outputChannel.send(`${playername} just checked out. There are ${activePlayerList.length} players online right now`);
+			}
+			
 		}
 		
 	});
